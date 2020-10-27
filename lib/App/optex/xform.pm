@@ -24,16 +24,16 @@ App::optex::xform - It's new $module
 
 App::optex::xform is ...
 
+=head1 AUTHOR
+
+Kazumasa Utashiro
+
 =head1 LICENSE
 
-Copyright (C) Kazumasa Utashiro.
+Copyright 2020 Kazumasa Utashiro.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-=head1 AUTHOR
-
-Kazumasa Utashiro E<lt>kaz@utashiro.comE<gt>
 
 =cut
 
