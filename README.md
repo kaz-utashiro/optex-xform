@@ -1,22 +1,23 @@
+[![Build Status](https://travis-ci.com/kaz-utashiro/optex-xform.svg?branch=master)](https://travis-ci.com/kaz-utashiro/optex-xform)
 # NAME
 
-App::optex::xform - It's new $module
+xform - data transform filter module for optex
 
 # SYNOPSIS
 
-    use App::optex::xform;
+    optex -Mxform
 
 # DESCRIPTION
 
 App::optex::xform is ...
 
+# AUTHOR
+
+Kazumasa Utashiro
+
 # LICENSE
 
-Copyright (C) Kazumasa Utashiro.
+Copyright 2020 Kazumasa Utashiro.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
-
-# AUTHOR
-
-Kazumasa Utashiro <kaz@utashiro.com>
