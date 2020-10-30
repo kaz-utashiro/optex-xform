@@ -1,6 +1,6 @@
 package App::optex::xform;
 
-our $VERSION = "0.01";
+our $VERSION = "0.02";
 
 =encoding utf-8
 
@@ -14,7 +14,31 @@ xform - data transform filter module for optex
 
 =head1 DESCRIPTION
 
-App::optex::xform is ...
+B<xform> is a filter module for B<optex> command which transform STDIN
+into different form to make it convenient to process, and recover to
+the original form after the process.
+
+Transformed data have to be appear exactly same order as original
+data.
+
+=head1 OPTION
+
+=over 7
+
+=item B<--xform-ansi>
+
+Transform ANSI terminal sequence into printable string, and recover.
+
+=item B<--xform-utf8>
+
+Transform multibyte Non-ASCII chracters into singlebyte sequene, and
+recover.
+
+=back
+
+=head1 SEE ALSO
+
+L<Text::VisualPrintf::Transform>
 
 =head1 AUTHOR
 
@@ -36,7 +60,7 @@ use utf8;
 use open IO => 'utf8', ':std';
 use Data::Dumper;
 
-use Text::VisualPrintf::Transform qw();
+use Text::VisualPrintf::Transform;
 use Text::VisualWidth::PP qw(vwidth);
 use Text::ANSI::Fold::Util qw(ansi_width);
 
@@ -73,7 +97,7 @@ sub decode {
     if (my $xform = pop @xform) {
 	$xform->decode($_);
     } else {
-	carp "No xform history.";
+	die "Not encoded.\n";
     }
     print $_;
 }
@@ -85,8 +109,8 @@ __DATA__
 option default -Mutil::filter
 
 option --xform-encode --psub __PACKAGE__::encode=mode=$<shift>
-option --xform-decode --osub __PACKAGE__::decode=mode=$<shift>
-option --xform --xform-encode $<copy(0,1)> --xform-decode $<shift>
+option --xform-decode --osub __PACKAGE__::decode
+option --xform --xform-encode $<shift> --xform-decode
 
 option --xform-ansi --xform ansi
 option --xform-utf8 --xform utf8
