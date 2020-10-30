@@ -9,7 +9,27 @@ xform - data transform filter module for optex
 
 # DESCRIPTION
 
-App::optex::xform is ...
+**xform** is a filter module for **optex** command which transform STDIN
+into different form to make it convenient to process, and recover to
+the original form after the process.
+
+Transformed data have to be appear exactly same order as original
+data.
+
+# OPTION
+
+- **--xform-ansi**
+
+    Transform ANSI terminal sequence into printable string, and recover.
+
+- **--xform-utf8**
+
+    Transform multibyte Non-ASCII chracters into singlebyte sequene, and
+    recover.
+
+# SEE ALSO
+
+[Text::VisualPrintf::Transform](https://metacpan.org/pod/Text::VisualPrintf::Transform)
 
 # AUTHOR
 
