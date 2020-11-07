@@ -10,10 +10,10 @@ xform - data transform filter module for optex
 # DESCRIPTION
 
 **xform** is a filter module for **optex** command which transform STDIN
-into different form to make it convenient to process, and recover to
-the original form after the process.
+into different form to make it convenient to manipulate, and recover
+to the original form after the process.
 
-Transformed data have to be appear exactly same order as original
+Transformed data have to be appear in exactly same order as original
 data.
 
 # OPTION
@@ -26,6 +26,10 @@ data.
 
     Transform multibyte Non-ASCII chracters into singlebyte sequene, and
     recover.
+
+# EXAMPLE
+
+    $ jot 100 | egrep --color=always .+ | optex -Mxform --xform-ansi column -x
 
 # SEE ALSO
 

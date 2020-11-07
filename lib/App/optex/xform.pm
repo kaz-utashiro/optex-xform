@@ -1,6 +1,6 @@
 package App::optex::xform;
 
-our $VERSION = "0.02";
+our $VERSION = "0.03";
 
 =encoding utf-8
 
@@ -15,10 +15,10 @@ xform - data transform filter module for optex
 =head1 DESCRIPTION
 
 B<xform> is a filter module for B<optex> command which transform STDIN
-into different form to make it convenient to process, and recover to
-the original form after the process.
+into different form to make it convenient to manipulate, and recover
+to the original form after the process.
 
-Transformed data have to be appear exactly same order as original
+Transformed data have to be appear in exactly same order as original
 data.
 
 =head1 OPTION
@@ -35,6 +35,10 @@ Transform multibyte Non-ASCII chracters into singlebyte sequene, and
 recover.
 
 =back
+
+=head1 EXAMPLE
+
+    $ jot 100 | egrep --color=always .+ | optex -Mxform --xform-ansi column -x
 
 =head1 SEE ALSO
 
@@ -114,3 +118,5 @@ option --xform --xform-encode $<shift> --xform-decode
 
 option --xform-ansi --xform ansi
 option --xform-utf8 --xform utf8
+
+#  LocalWords:  xform optex STDIN

@@ -2,6 +2,10 @@ Revision history for Perl extension App-optex-xform
 
 {{$NEXT}}
 
+0.03 2020-11-07T14:57:06Z
+
+    - Update dependency.
+
 0.02 2020-10-30T10:12:26Z
 
     - Update dependency.

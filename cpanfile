@@ -1,8 +1,9 @@
 requires 'perl', '5.014';
 
 requires 'App::optex', 'v0.4';
-requires 'Text::VisualPrintf', '3.10';
-requires 'Text::ANSI::Fold::Util', '0.02';
+requires 'Getopt::EX', 'v1.21';
+requires 'Text::VisualPrintf', '3.11';
+requires 'Text::ANSI::Fold::Util', '0.04';
 
 on 'test' => sub {
     requires 'Test::More', '0.98';
