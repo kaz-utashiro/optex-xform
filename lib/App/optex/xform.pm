@@ -1,6 +1,6 @@
 package App::optex::xform;
 
-our $VERSION = "0.03";
+our $VERSION = "1.01";
 
 =encoding utf-8
 
