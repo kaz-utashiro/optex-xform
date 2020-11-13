@@ -42,6 +42,11 @@ recover.
 
 =head1 SEE ALSO
 
+L<App::optex::xform>, L<https://github.com/kaz-utashiro/optex-xform>,
+
+L<App::optex>, L<https://github.com/kaz-utashiro/optex>,
+L<https://qiita.com/kaz-utashiro/items/2df8c7fbd2fcb880cee6>
+
 L<Text::VisualPrintf::Transform>
 
 =head1 AUTHOR

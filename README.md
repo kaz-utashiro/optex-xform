@@ -33,6 +33,11 @@ data.
 
 # SEE ALSO
 
+[App::optex::xform](https://metacpan.org/pod/App::optex::xform), [https://github.com/kaz-utashiro/optex-xform](https://github.com/kaz-utashiro/optex-xform),
+
+[App::optex](https://metacpan.org/pod/App::optex), [https://github.com/kaz-utashiro/optex](https://github.com/kaz-utashiro/optex),
+[https://qiita.com/kaz-utashiro/items/2df8c7fbd2fcb880cee6](https://qiita.com/kaz-utashiro/items/2df8c7fbd2fcb880cee6)
+
 [Text::VisualPrintf::Transform](https://metacpan.org/pod/Text::VisualPrintf::Transform)
 
 # AUTHOR
