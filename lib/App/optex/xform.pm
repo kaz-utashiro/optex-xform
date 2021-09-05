@@ -38,7 +38,7 @@ recover.
 
 =head1 EXAMPLE
 
-    $ jot 100 | egrep --color=always .+ | optex -Mxform --xform-ansi column -x
+    $ jot 100 | egrep --color=always .+ | optex column -Mxform --xform-ansi -x
 
 =head1 SEE ALSO
 
@@ -55,7 +55,7 @@ Kazumasa Utashiro
 
 =head1 LICENSE
 
-Copyright 2020 Kazumasa Utashiro.
+Copyright 2020-2021 Kazumasa Utashiro.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
