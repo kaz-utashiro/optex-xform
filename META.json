@@ -42,7 +42,7 @@
       },
       "runtime" : {
          "requires" : {
-            "App::optex" : "v0.4.1",
+            "App::optex" : "v0.5.3",
             "Text::ANSI::Fold::Util" : "0.06",
             "Text::Conceal" : "0.99",
             "Text::VisualWidth::PP" : "0.05",
@@ -67,7 +67,7 @@
          "web" : "https://github.com/kaz-utashiro/optex-xform"
       }
    },
-   "version" : "1.02",
+   "version" : "1.03",
    "x_authority" : "cpan:UTASHIRO",
    "x_contributors" : [
       "Kazumasa Utashiro <kaz@utashiro.com>"
