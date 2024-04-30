@@ -68,12 +68,16 @@ use Carp;
 use utf8;
 use open IO => 'utf8', ':std';
 use Data::Dumper;
+use Hash::Util qw(lock_keys);
 
 use Text::Conceal;
 use Text::VisualWidth::PP qw(vwidth);
 use Text::ANSI::Fold::Util qw(ansi_width);
 
 my %concealer;
+
+my %option = ();
+lock_keys(%option);
 
 my %param = (
     ansi => {
@@ -86,15 +90,26 @@ my %param = (
 	match   => qr/\P{ASCII}+/,
 	visible => 2,
     },
+    binary => {
+	length  => sub { length $_[0] },
+	match   => qr/[^\x0a\x20-\x7e]+/a,
+	visible => 2,
+	binmode => ':raw',
+    },
     );
 
 sub encode {
     my %arg = @_;
     my $mode = $arg{mode};
-    my $param = $param{$mode} or die "$mode: unkown mode\n";
+    my $param = { %{$param{$mode}} } or die "$mode: unkown mode\n";
+    my $binmode = delete $param->{binmode};
     my $conceal = Text::Conceal->new(%$param);
     $concealer{$mode} and die "$mode: encoding repeated\n";
+    if ($binmode) {
+	binmode STDIN, $binmode or die "$binmode: $!";
+    }
     local $_ = do { local $/; <> };
+    $_ // die $!;
     if ($conceal) {
 	$conceal->encode($_);
 	$concealer{$mode} = $conceal;
@@ -105,25 +120,44 @@ sub encode {
 sub decode {
     my %arg = @_;
     my $mode = $arg{mode};
-    $param{$mode} or die "$arg{mode}: unkown mode\n";
-    local $_ = do { local $/; <> };
+    $param{$mode} or die "$mode: unkown mode\n";
+    if (my $binmode = $param{binmode}) {
+	binmode STDIN, $binmode;
+    }
+    local $_ = do { local $/; <> } // return;
     if (my $conceal = $concealer{$mode}) {
 	$conceal->decode($_);
     } else {
 	die "$mode: not encoded\n";
     }
+    use Encode ();
+    $_ = Encode::decode('utf8', $_) if not utf8::is_utf8($_);
     print $_;
+}
+
+sub set {
+    while (my($k, $v) = splice(@_, 0, 2)) {
+	exists $option{$k} or next;
+	$option{$k} = $v;
+    }
+    ();
 }
 
 1;
 
 __DATA__
 
-option --xform-encode -Mutil::filter --psub __PACKAGE__::encode=mode=$<shift>
-option --xform-decode -Mutil::filter --osub __PACKAGE__::decode=mode=$<shift>
-option --xform --xform-encode $<copy(0,1)> --xform-decode $<move(0,1)>
+autoload -Mutil::filter --osub --psub
+
+option --xform-encode --psub __PACKAGE__::encode(mode=$<shift>)
+option --xform-decode --osub __PACKAGE__::decode(mode=$<shift>)
+
+option --xform \
+	--xform-encode $<copy(0,1)> \
+	--xform-decode $<move(0,1)>
 
 option --xform-ansi --xform ansi
 option --xform-utf8 --xform utf8
+option --xform-bin  --xform binary
 
 #  LocalWords:  xform optex STDIN
