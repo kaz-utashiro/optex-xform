@@ -34,11 +34,45 @@ Transform ANSI terminal sequence into printable string, and recover.
 Transform multibyte Non-ASCII chracters into single-byte sequene, and
 recover.
 
+=item B<--xform-bin>
+
+Transform non-printable binary characters into printable string, and
+recover.
+
+=item B<--xform-visible>=I<0|1|2>
+
+Specify the character set used for transformation. This option overrides
+the default C<visible> parameter of C<Text::Conceal>.
+
+=over 4
+
+=item B<0>
+
+Use both printable and non-printable characters.
+
+=item B<1>
+
+Use printable characters first, then non-printable characters if needed.
+
+=item B<2>
+
+Use only printable characters (default).
+
+=back
+
+This option can be combined with any xform mode (ansi, utf8, bin, generic).
+
 =back
 
 =head1 EXAMPLE
 
     $ jot 100 | egrep --color=always .+ | optex column -Mxform --xform-ansi -x
+
+Use C<--xform-visible> to control character set used for transformation:
+
+    $ optex -Mxform --xform-visible=2 --xform-ansi cat colored.txt
+
+    $ optex -Mxform --xform-visible=1 --xform-utf8 command
 
 =head1 SEE ALSO
 
@@ -55,7 +89,7 @@ Kazumasa Utashiro
 
 =head1 LICENSE
 
-Copyright 2020-2022 Kazumasa Utashiro.
+Copyright 2020-2025 Kazumasa Utashiro.
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
@@ -76,7 +110,9 @@ use Text::ANSI::Fold::Util qw(ansi_width);
 
 my %concealer;
 
-my %option = ();
+my %option = (
+    visible => undef,
+);
 lock_keys(%option);
 
 my %param = (
@@ -96,6 +132,11 @@ my %param = (
 	visible => 2,
 	binmode => ':raw',
     },
+    generic => {
+	length  => sub { length $_[0] },
+	match   => qr/.+/,
+	visible => 2,
+    },
     );
 
 sub encode {
@@ -103,6 +144,10 @@ sub encode {
     my $mode = $arg{mode};
     my $param = { %{$param{$mode}} } or die "$mode: unkown mode\n";
     my $binmode = delete $param->{binmode};
+    # Override parameters with user-specified options
+    for my $key (grep { defined $option{$_} } keys %option) {
+	$param->{$key} = $option{$key};
+    }
     my $conceal = Text::Conceal->new(%$param);
     $concealer{$mode} and die "$mode: encoding repeated\n";
     if ($binmode) {
@@ -147,7 +192,11 @@ sub set {
 
 __DATA__
 
+mode function
+
 autoload -Mutil::filter --osub --psub
+
+option --xform-visible &set(visible=$<shift>)
 
 option --xform-encode --psub __PACKAGE__::encode(mode=$<shift>)
 option --xform-decode --osub __PACKAGE__::decode(mode=$<shift>)
